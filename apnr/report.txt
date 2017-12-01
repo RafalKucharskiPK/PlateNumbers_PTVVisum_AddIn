@@ -1,0 +1,44 @@
+
+i2
+
+intelligent - infrastructure
+
+visum scripts and applications
+
+
+Automatic Plate Number Recognition Support
+
+Help can be found in your resource files (help.html)
+Additional support: info@intelligent-infrastructure.eu
+
+
+You can start with: 
+a) creating new DataBase and importing counting results
+b) opening existing database file
+
+i2
+
+intelligent - infrastructure
+
+visum scripts and applications
+
+
+Automatic Plate Number Recognition Support
+
+Help can be found in your resource files (help.html)
+Additional support: info@intelligent-infrastructure.eu
+
+
+You can start with: 
+a) creating new DataBase and importing counting results
+b) opening existing database file
+Connecting to existing Database
+Database filename C:\Users\i2\Desktop\1234.db
+Database C:\Users\i2\Desktop\1234.db connection established
+Database tables created
+Data About CLs imported from Visum
+There are 32 Count Locations imported from Visum
+Data imported
+CLs skim matrix initialized
+DataBase initialization complete, you may play with the data
+Filling grid by data from Matrix

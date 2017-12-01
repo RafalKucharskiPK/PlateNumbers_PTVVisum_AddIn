@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+	<head>
+		<meta charset="UTF-8" />
+		<title>intelligent infrastructure</title>
+		<link rel="stylesheet" type="text/css" href="html_data/main.css" />
+		<script type="text/javascript" src="html_data/main.js"></script>
+	</head>
+	<body onload="initMain()">
+	<div id="content">
+		<div id="logo_background">
+			<div id="logo">
+			</div>
+			<div id="langs">
+				<a href="#" onclick="switchLanguage('en', 'pl')" id="link_en">help </a>
+				&nbsp;
+				<a href="#" onclick="switchLanguage('pl', 'en')" id="link_pl">file</a>
+			</div>
+		</div>
+		<div id="text">
+			<div id="menu_pl">
+				<a href="#" onclick="switchMenuDivs('main', 'main_pl')" id="link_main_pl"></a>
+				&nbsp;
+				<a href="#" onclick="switchMenuDivs('main', 'kontakt_pl')" id="link_kontakt_pl">contact</a>
+			</div>
+			<div id="menu_en">
+				<a href="#" onclick="switchMenuDivs('main', 'main_en')" id="link_main_en">APNR - automatic plate number recognition support</a> - Visum Add-In
+				
+				
+			</div>
+			<div id="frame_pl">
+				<div id="main_pl">					
+				</div>
+				<div id="kontakt_pl">					
+				</div>
+			</div>
+			<div id="frame_en">
+				<div id="main_en">
+					<p>
+						<b>APNR</b>					
+					</p>
+					
+					<p>
+						Welcome to Automatic Plate Number Recognition support by intelligent-infrastructure.<br><br></p>
+						
+						<p><b>Main functionalities:</p></b>
+						<p>APNR:<br>
+						-	works as a script run from Visum 12 script menu,<br>-	uses data from Visum network,<br>-	uses data and parameterization from Visum predefined Count Location (CL) objects,<br>-	imports and process APNR data from ASCII files.<br>-	works in acceptable calculation times for 250 000 APNR records (~0,3s per database query)<br>-	generates virtual traffic assignment zones based on topology of network and CLs.<br>-	provides advanced queries to APNR database (i.e. list of trucks which have passed between two count locations between 7am and 8am)<br>-	user friendly GUI shows clearly all required data in tables, lists and plots.<br>-	shows results as a plot of travel times, traffic volumes, histogram of travel times etc.<br>-	transfers calculations results to Visum both in form of detected pathsets and demand matrix.<br>-	handles with detection errors (unread plates) and summarizes unread observations.<br>-	calculates basic characteristics based on Visum network and Count Locations:<br> 
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp-	Distances<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp-	Free flow and congested travel times<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp-	Impedance<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp-	Visum flow bundle Volume between two Count Locations<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp-	export data to Excel
+
+					</p>
+					<p>
+						<b>Dependencies</b>					
+					</p>
+					<p> To work with APNR you need to have PTV Visum installed full python installation (If During installation of PTV Visum you disabled options to install Python25, PythonWin, Python Collection, etc.- script will most likely not work.)<br>
+					Additionally to calculate statistical features of results you will need to update both <a href="http://sourceforge.net/projects/scipy/files/scipy/0.10.1/scipy-0.10.1-win32-superpack-python2.5.exe/download"><span class="i2_green">scipy</a></span>  and <a href="http://sourceforge.net/projects/numpy/files/NumPy/1.6.1/numpy-1.6.1-win32-superpack-python2.5.exe/download"><span class="i2_green">numpy</span></a><br>
+					Moreover, to import data from Excel files you would need additional <a href="http://www.lexicon.net/sjmachin/xlrd-0.6.1.win32.exe"><span class="i2_green">xlrd</a></span> module.
+					<p>
+						<b>Installation</b>					
+					</p>
+					<p>
+						1. Unpack the rar package into "Visum_Working_Folder/Exe/Addins" (after unzipping the script itself should be in i.e. C:\Program Files\PTV_Vision\Visum115\Exe\AddIns\intelligent-infrastructure\APNR<br>2.	Run Visum (or restart, if it was opened).<br>3.	Run APNR from Menu->Scripts->intelligent-infrastructure->APNR<br>4.	The script uses numerous python libraries, all of which should have been already installed with Visum. However it might be needed to download and install additional freeware libraries: wx, random, Matplotlib, numpy, scipy, sqlite3. Mind, that that up to Visum 12, Python 2.5 is used, so remember to install packages for Python 2.5. In  any case of  'import error' dialog boxes, read which module is missing, try to install it and run script again. <br>5.	In rar package, sqlte3.dll file can be found. Unfortunately default visum installation contains a little out of date .dll file, so swap file C:\Python25\DLL\sqlite3.dll with sqlite3.dll  provided within rar package.<br>6.	Run APNR from Menu->Scripts->intelligent-infrastructure->Optimal Count Locator					
+					<p><b><br>GUI</b>					
+					<br><a href="html_data/1.png"><img width=600 height=573 src="html_data/1.png"></a><br>
+					<br><a href="html_data/2.png"><img width=400 height=201 src="html_data/2.png"></a><br>
+					<br><a href="html_data/4.png"><img width=600 height=578 src="html_data/4.png"></a><br>
+					<br><a href="html_data/5.png"><img width=444 height=471 src="html_data/5.png"></a><br>
+					<br><a href="html_data/3.png"><img width=600 height=335 src="html_data/3.png"></a><br>
+					<br><a href="html_data/6.png"><img width=600 height=577 src="html_data/6.png"></a><br>
+					<br><a href="html_data/7.png"><img width=600 height=94 src="html_data/7.png"></a><br>
+					</p>
+					<p><b>GUI:</b><br>
+					1 - Menu Bar (see 8:13)<br>
+					2 - Panels<br>
+					3 - Basic parameters:<br>&nbsp&nbsp&nbsp&nbsp	a) specify single TSys and single DSeg (used in skim matrix calculation, flow bundle executing)<br>	&nbsp&nbsp&nbsp&nbsp	b) Interpolation of detection times - possible to use interval detection times (start of interval is used as a value), or  interpolated times (linear interpolation within single interval)<br>
+					4 - console - with basic info about program (status, database connection, etc.)<br>
+					5 - CLs table - containing everything that is needed about Count Locations<br>
+					6 - Help button - press to get to this html file<br>
+					7 - Cancel - click to quit working<br>
+					8 - Initialize button (see below)<br>
+					9 - Connect with database (see below)<br>
+					10 - Import results (see below)<br>
+					11 - Process Database - opens new dialog window<br>
+					12 - Export respective tables to Excel<br>
+					13 - Export to Visum<br>
+					14 - Choose certain graph to be plotted<br>
+					15 - Plot graph with last filtered data<br>
+					16 - Export plot data to Excel<br>
+					17 - Data Plot<br>
+					18 - 21 Process database dialog window<br>
+					18 - select time interval for database analysis<br>
+					19 - select vehicle type for database analysis<br>
+					20 - select filtering conditions for database analysis (procedure will exclude trips with travel time below ith percentile, and above jth percentile<br>
+					21 - Progress bar used in cases when calculations may take some time<br>
+					22 - Filter parameters:<br>	
+					&nbsp&nbsp&nbsp&nbsp	a) b) c) following count location IDs - single select<br>	
+					&nbsp&nbsp&nbsp&nbsp	d) Vehicle types- multi select<br>	
+					&nbsp&nbsp&nbsp&nbsp	e) time interval (seconds) (see below)<br>	
+					&nbsp&nbsp&nbsp&nbsp	f) Plate number (see below)<br>
+					23 - Table with filtering results, data about PlateNo, Type and detection times at following CLs<br>
+					24 - List to choose certain values to be shown in Matrix<br>
+					25 - Press to calculate selected data<br>
+					26 - Press to show selected data in the matrix<br>
+					27 - Press to export Visum paths using selected data as a volumes<br>
+					28 - Matrix (dimension = noCL x noCL, color depends on state (see below)</p>
+
+					<p><b>Visum input requirements</b></p>
+
+					<p>1.	Create a set of Count Location objects (CLs) in Visum, which reflect real locations of CLs. <br>
+					2.	Mind that CLs are directed (one per direction). <br>
+					3.	Every CLs' name must match appropriate filename of respective txt file with input data. <br>
+					4.	No special characters allowed for CLs names.<br>
+					5.	Backup your version file and results of APNR (before script will do something harmful it will ask you first, but better be on a safe side).<br>
+					6.	Backup your database for various scenarios, i.e. initial database with imported results. <br>
+					7.	Mind that a database can calculate at a time: volumes, matrix, and travel times only for single time interval and vehicle type selection. It's good to copy Database for certain type of analysis.
+</p>
+
+					
+					
+					<p><b>APNR input requirements</b></p>
+					<p>
+					1. all provided files should be saved in txt format,<br>
+					2. every filename should match appropriate count location name in visum<br>
+					3. every file should start and finish with timestamp <br>	*hh:mm -> two digits for hour, two digits for minutes of observation <br>	*06:15 - ok<br>	*6:15 - wrong<br>	*0615 - wrong<br>	<br>
+					4. L- or l- -> such prefix is considered as a observation of LKW. To add more vehicle types, let us know about the meaning of new prefixes.<br>
+					5. "-" is considered as unread private car<br>
+					6. We found plate no consisting of numbers only ('5923'), that confuses DataBase, please avoid it<br><br>
+					7. Plate no should be in format: LL34234: <br>	-no spaces <br>	-letters in beginning <br>	-no special characters '?$&' allowed<br><br>Below, the sample correct file is shown<br>*05:15 - <br>M5983<br>RS89<br>*05:20<br>FZ223<br>AA2888<br>FG188<br>L-AA202<br>JG1048<br>KW459<br>EX161<br>*05:25<br>PB659<br>Y1352<br>MK985<br>MT2880<br>-<br>FW644<br>BS3372<br>FK468<br>EL2287<br>GW1020<br>*19:10<br>SM1889<br>M7600<br>BG1169<br>CJ2182<br>PP82931<br>ZA227<br>BS1256<br>BD958<br>AX580<br>GR906<br>-<br>C9700<br>EE1834<br>RO1052<br>FR810<br>P3972<br>UE573<br>RT519<br>RJ222<br>*19:15<br>					</p>
+
+
+
+<p><b>
+Philosophy of working with APNR.</b></p>
+<p>
+We've created tool which can help you to create complex reports from APNR results. It's not meant to automatically calculate anything in way of 'black-box'. We know that APNR users are in most cases experienced transport modelers who know how to calculate matrices, include errors etc. That's why our aim was to create tool for analysis, rather than 'black-box'.<br>We provided Visum and Excel export for most of reports. <br>You can always inspect SQL database with additional software (see section below), additionally we provide you with tool to query database for most frequent cases, i.e.: "How many Vans traveled between CL1 and CL2 from 6 to 9". Main functionality is creation of OD matrices and skim matrices from APNR results. It's straightforward procedure with no hidden assumptions. You have optional parameter for filtering travel-times described in section below.<br><br>
+<b>Workflow - how to use it?</b><br>
+1. Run Visum with properly prepared version file.<br>
+2. Initialize Database in selected file (only new ones).<br>
+3. Import results from properly prepared folder.<br>
+4. Process database for selected filter. This will create matrices for [!!!] selected time interval and VehTypes [!!!]. So if You select i.e. Trucks from 6AM to 9AM you will get matrix for Trucks from 6AM to 9AM.<br>
+5. See if created matrices are acceptable (APNR_VOLUME_OD) (APNR_TMEAN_OD).<br>
+6. Create Zones in Visum.<br>
+7. Export OD matrix to Excel or Visum.<br>
+8. Export errors from diagonal (APNR_VOLUME_ERROR) to Excel or Visum.<br>
+9. or Export paths to Visum.<br>
+<br>
+<p><b>
+1.	Creating new database.</b></p>
+<p>
+First of all, create database instance (DB), which contains empty tables prepared to import data and handle analysis. The script will ask for a path to new database (by default database has .db extension, keep it for simplicity).  <br>To browse data in DB, see SQL data browser below.<br>After this step, a table in Init Panel is populated with CLs data. On click, the appropriate CL is marked in Visum.</p><p><b>
+2.	 Importing results</b></p>
+<p>
+When  a new empty DB is created , it's possible to  import and process results of your calculations. Specify the folder with .txt result files <br>To avoid  unexpected errors, there should be only necessary .txt files<br>Important issues :<br>Do not import results twice for the same db file, cause it will duplicate results. To reimport txt files, please create new db instance –  see section above.<br>All data in txt files should utterly fulfill requirements provided in section APNR input requirements.
+</p><p><b>
+3.	 Opening existing db</b></p>
+<p>
+Select previously created db file, check whether CL list reflects one in working visum version file
+</p><p><b>
+4. Process Database.</b></p>
+<p>
+Main procedure to calculate OD matrices and skim matrices. New dialog window will popup,you should select proper filtering for resulting OD matrix. Mind that for broad filtering it can take a lot of time to calculate.
+
+</p><p><b>
+5. Init Parameters.</b></p>
+<p>
+To make sure that visum calculations are handled properly, specify respective Tsys for shortest path, and Dseg for flow bundle. <br>Interpolate Travel Times:  Possible choice of linear interpolation detection and travel times within single interval
+</p><p><b>
+6. CL table</b></p>
+<p>
+Contains all CLs data stored in database. On click, highlight respective CL in visum.
+</p><p><b>
+7. Filtering</b></p>
+<p>
+To filter data specify.<br>set of consequent CLs<br>-	Vehicle type<br>-	Time interval<br>-	Plate no ( wildcards like * $ accepted )<br>Broad searches can slow down filling the table.<br>Available export to excel.<br>Filtering single CL shows all counts (including unread), filtering two or more CLs  shows only read counts (no errors included)
+</p><p><b>
+8. Statistics</b></p>
+<p>
+for filtering results, basic statistics are provided <br>available export results to excel
+</p><p><b>
+9. Plot</b></p>
+<p>for filter results, plotting tools (several plots & histograms) are provided.
+</p><p><b>
+
+10. CLs Matrix</b></p>
+<p>
+Table shows values of respective directed pair of CLs (FromCL/ToCL). Values can be shown, but first they need to be calculated. Calculation results are stored in database. They can be reused in following sessions.<br><br>
+
+
+A. STATE<br>
+Parameter shows what kind of path is between pair of CLs. Matrix is colored regarding to state of the cell. See how it works.<br>
+            a) ok - path exists + shortest path between 2CLs crosses them naturally<br>
+            b) diag - FromCl = ToCL<br>
+            c) reverse - FromCL LinkNo = ToCL LinkNo - count locations on opposite sides of the road<br>
+            d) no SP found <br>
+            e) loops, see below:<br>
+<br><a href="html_data/1.png"><img width=668 height=96 src="html_data/statsIm.png"></a><br>
+<br><a href="html_data/1.png"><img width=422 height=86 src="html_data/statsTable.png"></a><br>
+<br><br>
+B. VOLUME_VISUM
+<br>
+matrix containing flow bundle volumes for respective CL pairs.
+<br><br>
+C. VISUM SKIM MATRICES (T0,TCur,IMP,DIST)
+<br>
+Respective shortest path costs in visum are calculated. It can take up to few minutes per calculation.
+<br><br>
+D/E. APNR_VOLUME_OD/Detected/ALL
+<br>
+OD matrices from APNR. Calculated while processing database (for selected then time interval and veh type).
+Let's assume that within selected time interval vehicle with plate no HH-DS 2343 was detected on count locations, as shown below.
+<br><a href="html_data/11.png"><img width=364 height=57 src="html_data/11.png"></a><br>
+
+<br><br>
+APNR_VOLUME_OD
+<BR><BR>
+trip is regarded as Cl1-CL5 <br>
+
+<br><a href="html_data/8.png"><img width=510 height=103 src="html_data/8.png"></a><br>
+
+<br><br>
+APNR_VOLUME_DETECTED
+<BR><BR>
+trip is split into adjacent CL pairs: CL1-CL2, CL2-CL3, CL3-CL4, CL4-CL5
+<br>
+
+<br><a href="html_data/9.png"><img width=510 height=103 src="html_data/9.png"></a><br>
+
+<br><br>
+APNR_VOLUME_ALL
+<BR><BR>
+trip is split into any acceptable "sub-trips": CL1-CL2,CL1-CL3,CL1-CL4,CL1-CL5,CL2-CL3,CL3-CL4,CL3-CL5,CL4-CL5
+<br>
+<br><a href="html_data/10.png"><img width=510 height=103 src="html_data/10.png"></a><br>
+
+Those matrices might be confusing, but we left them as they might be helpful in route choice analysis.
+<BR><BR>
+F. APNR_VOLUME_ERROR
+<br>
+Diagonal matrix. Values on diagonal reflects number of unread vehicles on respective count locations.
+<br>
+G. APNR SKIM MATRICES
+<br><br>
+Set of four various skim matrices calculated during processing database.<br>
+Tmin is minimal travel time observed - mind that result is respective to ith percentile defined in 'process database' dialog.<br>
+Tmean is mean observed travel time for selected time interval.<br>
+Tmod is most frequent travel time, which equals zero when none of travel times is observed more than once.<br>
+Tmax is maximal travel time observed - mind that result is respective to jth percentile defined in 'process database' dialog.<br>
+Mind that difference between T*_OD and T*_DETECTED matrices in analogical to difference for Volume matrices defined above. For T*_OD only travel times for complete trips starting in CL1 and finished in CL2 are calculated.
+<br>
+H. APNR SKIM MATRICES
+<br><br>
+Set of node numbers between CL1 and CL2 calculated based on shortest path search in Visum.
+<br>
+H. Is contained in, contains
+<br><br>
+<br>Calculates dependencies between paths. Pathnodes need to be calculated first.<br> Shows set of references to paths contained/containing respective path. Helpful in calculating 
+12. Export to excel</b></p>
+<p>
+All selected grids apart from First panel can be exported to visum. Select from menu what you want to export. Plots can also be exported to excel.
+</p><p><b>13. Export to Visum</b></p>
+<p>
+A. Zones<br>For each CL One zone with two connectors is created. Connectors are parameterized to reflect direction of CL. This procedure deletes all zones from visum. Zone names are taken from respective CLs.<br><br>B.  Paths<br>Calculated volumes can be exported either as visum matrix, either as paths.<br> Paths with respective volumes are based on t0 shortest path search in visum. Pathset no 12 is created to contain paths.<br><br>C. Matrix<br>Matrix with selected values, selection in MTX sel list, is exported to visum. Non numerical values are saved as zero.<br> Mtx no 1212 is created in visum.
+</p><p><b>
+14 Creating OD matrix.
+</p></b>
+<p>Final OD matrix being result of DB processing is stored as VOLUME_APNR_1 in the Matrix. However, before it's calculated, following actions need to be done:<br>
+1. Opened, or initialized database with imported results<br>
+2. Calculated CLs statistics for single CLs and Pairs on CL (takes some time) - mind that at this point you select what kind of matrix you will get- if you select time interval here you will get matrix for this interval.
+3. Calculated PATHNODES in 'Matrix' Panel
+4. Calculated STATE in 'Matrix' Panel
+5. Calculated IS_CONTAINED_IN in 'Matrix' Panel (progress bar with: "Calculating Matrix Topology" label should pop up for a while.
+6. Now you can check if VOLUME_APNR_1 is what You expected
+</p><p><b>
+17 Time interval filtering
+</p></b>
+<p> Filtering trips on basis of time can be problematic and confusing. We chosen most error-prone method that we figured out. For selected FromTime ToTime result is: all trips that were observed at first CL after time FromTime and has been observer at last CL before time ToTime. This can influence expected results, so keep it in mind.
+<br>Mind that in this version of software time is always given in seconds: 06:00 = 3600*6s = 21600s
+</p><p><b>
+18 Database processing
+</p></b>
+<p><b> A. Exclusions -</b> in APNR database in table of matrices you have column "Enabled" with boolean value <i>"Yes/No"</i> 
+in this column you can store information about special CL pairs which should be disabled from calculations. 
+<br>What does it mean?
+<br>When line for path between CLs <i><b>"32" and "51"</b></i> has value of enabled = <i>False</i> 
+then any car which was observed as passing consequently <b><i>CL no 32</b></i> and straight after <b><i>CL no 53</b></i><br>
+will be treated by APNR as two separate journeys, i.e.: car BR 23453 was observed at CLs:10,32,14,53,32 -> this is one trip through five CLs, not affected by <i> exclusions.txt</i>, but<br>
+if car BR 23453 was observed at CLs:[10,32,14,53,<b>32,51</b>,43], and line <b><i>"32;51"</b></i> is in <i>exclusions.txt</i> then in database data will be stored as two separate journeys:
+<br> [10,32,14,53,<b>32] , </b> and [<b>51</b>,43]
+<br><br>
+
+<p><b> B. Min/Max travel time -</b> two additional columns in Matrix table: "mint" and "maxt", are responsible respectively for specifying minimal and maximal accepted travel time to include a journey in OD matrix. Trips between respective CLs with duration outside of range (mint, maxt) will not be considered in OD matrix.
+<br>Matrices are imported from Visum via "Menu->Import->Import SkimMtx of min/max travel times" - you select matrices by their number.
+</p>
+
+<p><b> C. Fratar -</b> additional procedure available under "Menu->Extrapolate Fratar". 
+To use it you need to define two additional UDAs for Count Locations: "i2_APNR_VOL_FRATAR_FROM", and "i2_APNR_VOL_FRATAR_TO". 
+You shall store updated volumes there. Procedure will calculate new, extrapolated matrix accordingly.
+</p><p><b>
+19 Additional software.
+</p></b>
+<p> For advanced filtering of database and editing it's highly recommended to use powerful freeware sql database browser available here: http://sqlitebrowser.sourceforge.net/ </p>				
+<p><b>Trouble shooting:</b></p>
+
+<p>
+With any problems don't hesitate to write to us at <a href="mailto:info@intelligent-infrastructure.eu"><span class="i2_green">info@intelligent-infrastructure.eu</span></a>. Please provide us with description of the error, and screenshot of window popping-up ("Python Error", or similar).
+<br>Please read the content of error message. If there is a problem related to module import, you can try to Google name of unimported module (i.e. Scipy, Numpy, Matplotlib, SQlite3) and install them using windows installer package (mind that up to Visum 12, python version 2.5 is installed with Visum).
+</p>		
+				
+			</div>	
+			</div>
+		</div>
+		<div id="contact_background">
+			<a href="mailto:info@intelligent-infrastructure.eu">			
+			<div id="contact">
+			</div>
+			</a>
+		</div>
+	</div>
+	</body>
+</html>
